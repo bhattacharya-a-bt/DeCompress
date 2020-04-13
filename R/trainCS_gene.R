@@ -63,4 +63,15 @@ trainCS_gene <- function(need,
                          seed)
     } else {mod.TV = list(r2 = -1)}
 
+    tot = list(mod.lar,
+               mod.lasso,
+               mod.enet,
+               mod.ridge,
+               mod.l1,
+               mod.l2,
+               mod.TV)
+
+    r2Tot = sapply(tot,function(x) x$r2)
+    return(tot[[which.max(r2Tot)]]$coef)
+
 }
