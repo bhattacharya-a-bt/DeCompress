@@ -1,6 +1,5 @@
 trainCS <- function(yref,
                     yref_need,
-                    target,
                     seed = 1218,
                     method = c('lar',
                                'lasso',
