@@ -28,7 +28,10 @@ trainCS <- function(yref,
                                    train = yref,
                                    seed=seed,
                                    method = method)
+    compression_mat = sapply(compression,function(x) x$coef)
+    r2Vec = sapply(compression,function(x) x$r2)
 
-    return(compression)
+    return(list(compression.matrix = compression_mat,
+                r2 = r2Vec))
 
 }

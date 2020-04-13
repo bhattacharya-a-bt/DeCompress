@@ -72,6 +72,7 @@ trainCS_gene <- function(need,
                mod.TV)
 
     r2Tot = sapply(tot,function(x) x$r2)
-    return(tot[[which.max(r2Tot)]]$coef)
+    return(list(coef = tot[[which.max(r2Tot)]]$coef,
+                r2 = max(r2Tot)))
 
 }
