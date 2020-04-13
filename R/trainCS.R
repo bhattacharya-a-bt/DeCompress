@@ -17,10 +17,6 @@ trainCS <- function(yref,
         stop("matrix not supplied in yref_need")
     }
 
-    if (class(target) != 'matrix'){
-        stop("matrix not supplied in target")
-    }
-
     compression = pbapply::pbapply(yref_need,
                                    MARGIN = 1,
                                    trainCS_gene,
