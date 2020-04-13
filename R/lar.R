@@ -1,7 +1,7 @@
 lar <- function(need,
                 train,
                 seed = 1218){
-
+    set.seed(seed)
     lar = tryCatch(lars::cv.lars(x = t(train),
                                  y = need,
                                  type = 'lar',

@@ -1,10 +1,12 @@
 enet <- function(need,
                  train,
-                 seed = 1218){
+                 seed = 1218,
+                 alpha){
 
+    set.seed(seed)
     lar = tryCatch(glmnet::cv.glmnet(x = t(train),
                                      y = need,
-                                     alpha = .5,
+                                     alpha = alpha,
                                      k = 5),
                    error = function(e) {return(NULL)})
     if (is.null(lar)){

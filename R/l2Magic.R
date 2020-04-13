@@ -33,7 +33,6 @@ l2Magic <- function(need,
 
     }
 
-
     return(list(coef = mod$estimate,
                 r2 = cor(need,pred)^2))
 
