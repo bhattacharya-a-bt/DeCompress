@@ -6,7 +6,8 @@ lar <- function(need,
                                  y = need,
                                  type = 'lar',
                                  plot.it = F,
-                                 K = 5),
+                                 K = 5,
+                                 useGram = T),
                    error = function(e) {return(NULL)})
     if (!is.null(lar)){
         lar.reg = lars(x = t(train),
