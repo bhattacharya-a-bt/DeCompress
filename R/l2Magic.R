@@ -1,6 +1,7 @@
 l2Magic <- function(need,
                     train,
-                    seed = 1218){
+                    seed = 1218,
+                    lambda = .1){
 
     set.seed(seed)
     Tt = diag(nrow(train))
