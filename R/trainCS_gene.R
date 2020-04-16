@@ -7,7 +7,10 @@ trainCS_gene <- function(need,
                                     'ridge',
                                     'l1',
                                     'TV',
-                                    'l2')){
+                                    'l2'),
+                         par = F,
+                         n.cores,
+                         lambda = .1){
 
     if (!class(need) %in% c('vector','numeric')){
         stop("provide a numeric vector for need")
@@ -45,23 +48,53 @@ trainCS_gene <- function(need,
                          alpha = 1)
         } else {mod.ridge = list(r2 = -1)}
 
-    if ('l1' %in% method){
-        mod.l1 = l1Magic(need,
-                         train,
-                         seed)
+    if (!par){
+        if ('l1' %in% method){
+            mod.l1 = l1Magic(need,
+                             train,
+                             seed,
+                             lambda = lambda)
+            } else {mod.l1 = list(r2 = -1)}
+        if ('l2' %in% method){
+            mod.l2 = l2Magic(need,
+                             train,
+                             seed,
+                             lambda = lambda)
+            } else {mod.l2 = list(r2 = -1)}
+        if ('TV' %in% method){
+            mod.TV = TVMagic(need,
+                             train,
+                             seed,
+                             lambda = lambda)
+            } else {mod.TV = list(r2 = -1)}
+        }
+
+    if (par){
+        if ('l1' %in% method){
+            mod.l1 = parMagic(train,
+                              need,
+                              lambda = lambda,
+                              seed = seed,
+                              obj = 'l1',
+                              n.cores = n.cores)
         } else {mod.l1 = list(r2 = -1)}
-
-    if ('l2' %in% method){
-        mod.l2 = l2Magic(need,
-                         train,
-                         seed)
+        if ('l2' %in% method){
+            mod.l2 = parMagic(train,
+                           need,
+                           lambda = lambda,
+                           seed = seed,
+                           obj = 'l2',
+                           n.cores = n.cores)
         } else {mod.l2 = list(r2 = -1)}
-
-    if ('TV' %in% method){
-        mod.TV = TVMagic(need,
-                         train,
-                         seed)
-    } else {mod.TV = list(r2 = -1)}
+        if ('TV' %in% method){
+            mod.TV = parMagic(train,
+                              need,
+                              lambda = lambda,
+                              seed = seed,
+                              obj = 'TV',
+                              n.cores = n.cores)
+        } else {mod.TV = list(r2 = -1)}
+    }
 
     tot = list(mod.lar,
                mod.lasso,
