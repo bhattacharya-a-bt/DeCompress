@@ -20,24 +20,22 @@ trainCS <- function(yref,
     }
 
     if (!par){
-    compression = pbapply::pbapply(yref_need,
-                                   MARGIN = 1,
-                                   trainCS_gene,
-                                   train = yref,
-                                   seed=seed,
-                                   method = method)
+    compression = apply(yref_need,
+                        MARGIN = 1,
+                        trainCS_gene,
+                        train = yref,
+                        seed=seed,
+                        method = method)
     }
 
     if (par){
-        yref_need_list = split(yref_need,
-                               rep(1:nrow(yref_need),
-                                   each = ncol(yref_need)))
-        compression = parallel::mclapply(yref_need_list,
-                                         trainCS_gene,
-                                         train = yref,
-                                         seed=seed,
-                                         method = method,
-                                         mc.cores = n.cores)
+        future::plan(multiprocess,workers = n.cores)
+        compression = future.apply::future_apply(yref_need,
+                                                 MARGIN = 1,
+                                                 trainCS_gene,
+                                                 train = yref,
+                                                 method = method,
+                                                 seed = seed)
     }
 
     compression_mat = sapply(compression,function(x) x$coef)
