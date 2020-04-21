@@ -29,7 +29,7 @@ trainCS <- function(yref,
     }
 
     if (par){
-        future::plan(multiprocess,workers = n.cores)
+        future::plan(future::multiprocess,workers = n.cores)
         compression = future.apply::future_apply(yref_need,
                                                  MARGIN = 1,
                                                  trainCS_gene,
