@@ -1,3 +1,23 @@
+#' Wrapper to train compression matrix
+#'
+#' The function runs trainCS_gene over the entire set of genes needed
+#' for deconvolution from the reference dataset.
+#'
+#' @param yref matrix, numeric expression matrix for target genes
+#' @param yref_need matrix, numeric expression matrix of needed genes
+#' @param seed numeric, random seed
+#' @param method vector, character vector of optimization methods
+#' @param par logical, T/F for parallelization
+#' @param n.cores numeric, number of cores
+#' @param lambda numeric, penalty paramemter for non-linear optimization
+#'
+#' @return list with coefficients and predictive R2
+#'
+#' @importFrom future plan
+#' @importFrom future multiprocess
+#' @importFrom future.apply future_apply
+#'
+#' @export
 trainCS <- function(yref,
                     yref_need,
                     seed = 1218,
@@ -25,7 +45,8 @@ trainCS <- function(yref,
                         trainCS_gene,
                         train = yref,
                         seed=seed,
-                        method = method)
+                        method = method,
+                        lambda = lambda)
     }
 
     if (par){
@@ -35,7 +56,8 @@ trainCS <- function(yref,
                                                  trainCS_gene,
                                                  train = yref,
                                                  method = method,
-                                                 seed = seed)
+                                                 seed = seed,
+                                                 lambda = lambda)
     }
 
     compression_mat = sapply(compression,function(x) x$coef)

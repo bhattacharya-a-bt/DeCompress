@@ -1,3 +1,19 @@
+#' Elastic-net for compressed sensing
+#'
+#' The function runs nonlinear optimization of TV-L2-penalty
+#' to train compression for a single gene
+#'
+#' @param need vector, numeric vector of gene that is needed
+#' @param train matrix, numeric expression matrix of training data
+#' @param seed numeric, random seed
+#' @param lambda numeric, penalty parameter
+#'
+#' @return list with coefficients and predictive R2
+#'
+#' @importFrom R1magic solveTV
+#' @importFrom caret createFolds
+#'
+#' @export
 TVMagic <- function(need,
                     train,
                     seed = 1218,
