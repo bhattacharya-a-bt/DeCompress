@@ -20,8 +20,8 @@ expandTarget <- function(target,
         stop("matrix not supplied in compression_mat")
     }
 
-    if (nrow(compression) == nrow(target)){
-        return(t(compression) %*% target)
-    } else {return(compression %*% target)}
+    if (nrow(compression_mat) == nrow(target)){
+        return(t(compression_mat) %*% target)
+    } else {return(compression_mat %*% target)}
 
 }
