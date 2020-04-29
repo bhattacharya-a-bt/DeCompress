@@ -2,7 +2,7 @@ linCor <- function(yref,
                    iters = 1000,
                    pval = .01,
                    n.types = NULL,
-                   scree = ''){
+                   scree = 'drop'){
 
     if (class(yref) != c('matrix')){
         stop("matrix not supplied in yref")
@@ -32,7 +32,7 @@ linCor <- function(yref,
             n.types = min(which(cumvar >= .8))
         }
         if (scree == 'drop'){
-            n.types = bigpca::quick.elbow(s$d^2)
+            n.types = kaiser(s$d^2)
         }
     }
 
