@@ -1,4 +1,6 @@
-structureMeasure <- function(s,data,cutoff) {
+structureMeasure <- function(s,
+                             data,
+                             cutoff) {
     residual.matrix <- residualMatrix(s,data,cutoff)
     residual.s <- svd(residual.matrix,nu=1,nv=1)
     nc <- ncol(residual.matrix)
@@ -12,8 +14,5 @@ structureMeasure <- function(s,data,cutoff) {
         alt.s <- svd(altered.matrix,nu=1,nv=1)
         alt.norms[i] <- alt.s$d[1]
     }
-    # 2-norm of residual matrix minus
-    # the average 2-norm of altered residual matrix
-    # divided by the frobenius norm of residual matrix
     (residual.s$d[1]-mean(alt.norms))/sqrt(sum(residual.matrix^2))
 }

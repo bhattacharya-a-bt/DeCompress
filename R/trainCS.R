@@ -29,7 +29,8 @@ trainCS <- function(yref,
                                'TV',
                                'l2'),
                     par = T,
-                    n.cores){
+                    n.cores,
+                    lambda = .1){
 
     if (class(yref) != 'matrix'){
         stop("matrix not supplied in yref")
