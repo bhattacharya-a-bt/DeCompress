@@ -1,7 +1,8 @@
 iterateSigs <- function(yref,
                         n.types = NULL,
                         n.markers = 1000,
-                        n.iter = 30){
+                        n.iter = 30,
+                        scree = c('drop','cumvar','residual')){
 
 
     if (class(yref) != c('matrix')){
