@@ -10,7 +10,7 @@
 #' @param scree character, method to estimate n.types if n.types is NULL
 #' @param log logical, T/F if yref is in log-scale
 #'
-#' @return list with coefficients and predictive R2
+#' @return list with cell-type proportions and expression
 #'
 #' @export
 linCor <- function(yref,
