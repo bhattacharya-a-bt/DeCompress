@@ -8,6 +8,7 @@
 #' @param pval numeric, p-value cutoff
 #' @param n.types integer, number of cell-types
 #' @param scree character, method to estimate n.types if n.types is NULL
+#' @param log logical, T/F if yref is in log-scale
 #'
 #' @return list with coefficients and predictive R2
 #'
@@ -21,6 +22,13 @@ linCor <- function(yref,
     if (class(yref) != c('matrix')){
         stop("matrix not supplied in yref")
     }
+
+    if (!log){
+        yref = log2(yref+1)
+    }
+
+    row.means = rowSums(yref)
+    yref = yref[row.means > 0,]
 
     lo <- linseed::LinseedObject$new(yref)
     lo$calculatePairwiseLinearity()

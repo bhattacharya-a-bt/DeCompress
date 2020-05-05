@@ -1,3 +1,19 @@
+#' Use NMF repeatedly with TOAST framework to find cell-type gene signatures
+#' and do deconvolution
+#'
+#' The function finds cell-type gene signatures and does deconvolution
+#' using the TOAST framework with NMF
+#'
+#' @param yref matrix, numeric expression matrix
+#' @param iters numeric, number of interations
+#' @param pval numeric, p-value cutoff
+#' @param n.types integer, number of cell-types
+#' @param scree character, method to estimate n.types if n.types is NULL
+#' @param log logical, T/F if yref is in log-scale
+#'
+#' @return list with cell-type proportions and expression profiles
+#'
+#' @export
 iterateSigs <- function(yref,
                         n.types = NULL,
                         n.markers = 1000,

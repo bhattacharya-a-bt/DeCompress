@@ -1,3 +1,14 @@
+#' Select the number of cell types using SVD methods
+#'
+#' The function estimates the number of cell-types using one
+#' of three SVD methods on the input expression matrix
+#'
+#' @param yref matrix, numeric expression matrix
+#' @param scree character, method to estimate n.types
+#'
+#' @return number of cell types
+#'
+#' @export
 findNumberCells <- function(yref,
                             scree = c('drop','cumvar','residual')){
 
