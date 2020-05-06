@@ -41,7 +41,7 @@ trainCS <- function(yref,
     }
 
     if (!par){
-    compression = apply(yref_need,
+    compression = pbapply::pbapply(yref_need,
                         MARGIN = 1,
                         trainCS_gene,
                         train = yref,
