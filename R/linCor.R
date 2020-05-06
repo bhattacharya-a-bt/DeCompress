@@ -17,7 +17,8 @@ linCor <- function(yref,
                    iters = 1000,
                    pval = .01,
                    n.types = NULL,
-                   scree = c('drop','cumvar','residual')){
+                   scree = c('drop','cumvar','residual'),
+                   log){
 
     if (class(yref) != c('matrix')){
         stop("matrix not supplied in yref")
