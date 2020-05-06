@@ -1,3 +1,15 @@
+#' Select the number of cell types using SVD methods
+#'
+#' The function estimates the number of cell-types using one
+#' of three SVD methods on the input expression matrix
+#'
+#' @param mat1 matrix, numeric matrix of proportions
+#' @param mat2 matrix, numeric matrix of proportions
+#' @param rand logical, T/F to shuffle columns of mat2
+#'
+#' @return number of cell types
+#'
+#' @export
 mseError <- function(mat1,mat2,rand=F){
 
     if (ncol(mat1) > nrow(mat1)){
