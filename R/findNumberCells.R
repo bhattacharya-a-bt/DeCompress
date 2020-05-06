@@ -17,7 +17,7 @@ findNumberCells <- function(yref,
         stop("matrix not supplied in yref")
     }
 
-    if (scree != c('drop','cumvar','residual')){
+    if (!(scree %in% c('drop','cumvar','residual'))){
         stop('scree has to be either drop, cumvar, or residual')
     }
 

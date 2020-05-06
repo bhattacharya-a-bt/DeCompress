@@ -28,7 +28,7 @@ linCor <- function(yref,
     }
 
     row.means = rowSums(yref)
-    yref = yref[row.means > 0,]
+    yref = yref[row.means != 0,]
 
     lo <- linseed::LinseedObject$new(yref)
     lo$calculatePairwiseLinearity()
