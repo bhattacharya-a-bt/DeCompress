@@ -14,7 +14,7 @@
 #'
 #' @export
 linCor <- function(yref,
-                   iters = 1000,
+                   iters = 100,
                    pval = .01,
                    n.types = NULL,
                    scree = c('drop','cumvar','residual'),
