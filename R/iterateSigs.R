@@ -19,7 +19,7 @@ iterateSigs <- function(yref,
                         n.markers = 1000,
                         n.iter = 30,
                         scree = c('drop','cumvar','residual'),
-                        logTransform = T){
+                        logTransform = F){
 
 
     if (class(yref) != c('matrix')){
