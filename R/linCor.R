@@ -18,13 +18,13 @@ linCor <- function(yref,
                    pval = .01,
                    n.types = NULL,
                    scree = c('drop','cumvar','residual'),
-                   log){
+                   logTransform = F){
 
     if (class(yref) != c('matrix')){
         stop("matrix not supplied in yref")
     }
 
-    if (!log){
+    if (logTransform){
         yref = log2(yref+1)
     }
 
