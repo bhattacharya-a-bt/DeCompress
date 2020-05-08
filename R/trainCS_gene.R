@@ -27,6 +27,8 @@ trainCS_gene <- function(need,
                          n.cores,
                          lambda = .1){
 
+    need = as.numeric(need)
+
     if (!class(need) %in% c('vector','numeric')){
         stop("provide a numeric vector for need")
     }

@@ -41,7 +41,7 @@ trainCS <- function(yref,
     }
 
     if (!par){
-    compression = pbapply::pbapply(yref_need,
+    compression = pbapply::pbapply(as.matrix(yref_need),
                         MARGIN = 1,
                         trainCS_gene,
                         train = yref,
@@ -52,7 +52,7 @@ trainCS <- function(yref,
 
     if (par){
         future::plan(future::multiprocess,workers = n.cores)
-        compression = future.apply::future_apply(yref_need,
+        compression = future.apply::future_apply(as.matrix(yref_need),
                                                  MARGIN = 1,
                                                  trainCS_gene,
                                                  train = yref,
