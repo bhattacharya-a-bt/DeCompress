@@ -1,6 +1,6 @@
 estimateUnmix <- function(yref,
                           sigs,
-                          shift.range = seq(0,1000,by=5),
+                          shift.range = 10^(1:10),
                           logTransform = F){
 
 
@@ -15,14 +15,9 @@ estimateUnmix <- function(yref,
     row.means = rowSums(yref)
     yref = yref[row.means > 0,]
 
-    if (is.null(n.types)){
-        n.types = findNumberCells(yref,scree = scree)
-    }
-
     geneList = rownames(yref)
 
     regBetweenRows <- function(shift,mat){
-        require(vsn)
         expressions <- log(mat+shift+1)
         means <- rowMeans(expressions)
         sds <- apply(expressions,1,sd)
