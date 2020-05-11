@@ -43,6 +43,6 @@ lar <- function(need,
                                mode='step'))
 
     return(list(coef = lar.coef,
-                r2 = 1 - min(lar$cv)/var(need)))
+                r2 = abs(1 - min(lar$cv)/var(need))))
 
 }
