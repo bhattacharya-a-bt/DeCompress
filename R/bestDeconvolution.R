@@ -48,7 +48,9 @@ bestDeconvolution <- function(yref,
     require(NMF)
     fin.nmf = nmf(x = yref[toast.nmf$finalsigs,],
                   rank = n.types)
-    nmf.res = list(prop = t(coef(fin.nmf)),
+    ppp = t(coef(fin.nmf))
+    ppp = t(apply(ppp,1,function(c) c/sum(c)))
+    nmf.res = list(prop = ppp,
                    sig = basis(fin.nmf))
 
 

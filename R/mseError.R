@@ -10,7 +10,9 @@
 #' @return number of cell types
 #'
 #' @export
-mseError <- function(mat1,mat2,rand=F){
+mseError <- function(mat1,mat2,rand=F,r2=F){
+
+
 
     if (ncol(mat1) > nrow(mat1)){
         mat1 = t(mat1)
@@ -24,32 +26,38 @@ mseError <- function(mat1,mat2,rand=F){
         stop('mat1 and mat2 have different numbers of rows')
     }
 
-    mse.row = function(i,mat1,mat2){
-        return(hydroGOF::mse(mat1[i,],mat2[i,]))
-    }
+    mse.all = function(mat1,mat2,r2){
+        if (!r2){
+            return(mean(rowMeans((mat1-mat2)^2)))
+        } else {
+            return(cor(as.vector(mat1),as.vector(mat2))^2)
+        }
 
-    mse.all = function(mat1,mat2){
-        return(mean(sapply(1:nrow(mat1),
-                           mse.row,
-                           mat1=mat1,
-                           mat2=mat2)))
     }
 
     if (rand == F){
-        return(mse.all(mat1,mat2))
+        return(mse.all(mat1,mat2,r2=r2))
     }
 
     if (rand == T){
-
         p = gtools::permutations(n = ncol(mat1),
                          r = ncol(mat1),
                          v = 1:ncol(mat1),
                          repeats.allowed=F)
         error = 100
+        r2 = -1
         for (j in 1:nrow(p)){
-            error = min(error,mse.all(mat1,mat2[,p[j,]]))
+            if (!r2){
+                error = min(error,mse.all(mat1,mat2[,p[j,]],r2=r2))
+            } else {
+                r2 = max(r2,mse.all(mat1,mat2[,p[j,]],r2=r2))
+            }
         }
-        return(error)
+
+        if (r2){ return(r2)
+            } else {
+                return(error)
+                }
 
     }
 
