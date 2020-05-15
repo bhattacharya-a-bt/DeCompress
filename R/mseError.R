@@ -45,16 +45,16 @@ mseError <- function(mat1,mat2,rand=F,r2=F){
                          v = 1:ncol(mat1),
                          repeats.allowed=F)
         error = 100
-        r2 = -1
+        r2o = -1
         for (j in 1:nrow(p)){
             if (!r2){
                 error = min(error,mse.all(mat1,mat2[,p[j,]],r2=r2))
             } else {
-                r2 = max(r2,mse.all(mat1,mat2[,p[j,]],r2=r2))
+                r2o = max(r2o,mse.all(mat1,mat2[,p[j,]],r2=r2))
             }
         }
 
-        if (r2){ return(r2)
+        if (r2){ return(r2o)
             } else {
                 return(error)
                 }
