@@ -29,7 +29,7 @@ findInformSet <- function(yref,
     }
 
     if (method == 'variance'){
-        yref_need = vardecomp(yref,
+        yref_need = vardecomp(yref[complete.cases(yref),],
                               n_genes)
     }
 

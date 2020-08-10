@@ -13,7 +13,7 @@ findNumberCells <- function(yref,
                             scree = c('drop','cumvar','residual')){
 
 
-    if (class(yref) != c('matrix')){
+    if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
     }
 
