@@ -8,7 +8,7 @@
 #' @param pval numeric, p-value cutoff
 #' @param n.types integer, number of cell-types
 #' @param scree character, method to estimate n.types if n.types is NULL
-#' @param log logical, T/F if yref is in log-scale
+#' @param logTransform logical, T/F if yref is in log-scale
 #'
 #' @return list with cell-type proportions and expression
 #'
@@ -20,7 +20,7 @@ linCor <- function(yref,
                    scree = c('drop','cumvar','residual'),
                    logTransform = F){
 
-    if (class(yref) != c('matrix')){
+    if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
     }
 
@@ -36,6 +36,12 @@ linCor <- function(yref,
     lo$calculateSpearmanCorrelation()
     lo$calculateSignificanceLevel(iters)
     lo$filterDatasetByPval(pval)
+
+    if (all(lo$genes$pvals > pval)) {
+        return(list(prop = matrix(rep(100,n.types * nrow(yref)),
+                                  ncol = n.types),
+                    sigs = NA))
+    }
 
     if (is.null(n.types)){
         n.types = findNumberCells(yref,scree = scree)

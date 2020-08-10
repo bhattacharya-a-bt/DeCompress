@@ -1,3 +1,24 @@
+#' TOAST-NMF deconvolution
+#'
+#' The function runs TOAST iteratively with NMF to find
+#' compartment proportions and signatures
+#'
+#' @param Y_raw matrix, numeric expression matrix
+#' @param K integer, number of cell-types
+#' @param FUN function, defaults to nmfOut
+#' @param nMarker integer, max number of genes for deconv, default 1000
+#' @param InitMarker vector, initial marker vector smaller than nrow of Y_raw
+#' @param bound_negative logical, T/F to bound negative params at 0
+#'
+#' @return list with cell-type proportions and expression profiles
+#'
+#' @import NMF
+#'
+#' @importFrom TOAST findRefinx
+#' @importFrom TOAST DEVarSelect
+#' @importFrom csSAM csfit
+#'
+#' @export
 csDeCompress <- function(Y_raw,
                          K,
                          FUN = nmfOut,
@@ -17,7 +38,7 @@ csDeCompress <- function(Y_raw,
         row.names(Y_raw) <- seq(nrow(Y_raw))
     }
     if (is.null(InitMarker)) {
-        if (nrow(Y_raw) < 2000) {
+        if (nrow(Y_raw) < 2*nMarker) {
             InitMarker <- TOAST::findRefinx(Y_raw, nmarker = nMarker)
         } else {
             tmp <- TOAST::findRefinx(Y_raw, nmarker = nMarker*2)

@@ -1,4 +1,18 @@
-kaiser <- function(varpc,low=.08,max.pc=.9) {
+#' Kaiser method to determine number of important SVs
+#'
+#' The function estimates the SV for the elbow in a scree plot
+#' from the vector of singular values
+#'
+#' @param varpc vector, singular values of a matrix
+#' @param low numeric, lower bound of cumulative var explained
+#' @param max.pc numeric, upper bound of cumulative var explained
+#'
+#' @return number of cell types
+#'
+#' @export
+kaiser <- function(varpc,
+                   low=.08,
+                   max.pc=.9) {
     ee <- varpc/sum(varpc) # ensure sums to 1
     #print(round(log(ee),3))
     while(low>=max(ee)) { low <- low/2 } # when no big components, then adjust 'low'

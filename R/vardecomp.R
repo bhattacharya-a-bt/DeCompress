@@ -14,11 +14,17 @@
 vardecomp <- function(yref,
                       n_genes = 1000){
 
-    if (class(yref) != c('matrix')){
+    if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
     }
 
-    return(yref[TOAST::findRefinx(yref,
-                                  nmarker = n_genes),])
+    toast.nmf <- csDeCompress(Y_raw = yref,
+                              K = n.types,
+                              nMarker = min(n_genes,nrow(yref)),
+                              FUN = nmfOut,
+                              TotalIter = 10)
+
+
+    return(yref[toast.nmf$finalsigs,])
 
 }

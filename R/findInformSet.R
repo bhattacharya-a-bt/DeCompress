@@ -1,7 +1,7 @@
-#' Select the number of cell types using SVD methods
+#' Select the compartment specific genes
 #'
-#' The function estimates the number of cell-types using one
-#' of three SVD methods on the input expression matrix
+#' The function feature selects the compartment specific genes
+#' from the reference expression matrix
 #'
 #' @param yref matrix, numeric expression matrix
 #' @param method character, variance/linearity for TOAST or LINSEED
@@ -19,7 +19,7 @@ findInformSet <- function(yref,
                           scree = 'cumvar'){
 
 
-    if (class(yref) != c('matrix')){
+    if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
     }
 

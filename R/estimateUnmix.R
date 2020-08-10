@@ -1,10 +1,25 @@
+#' Run unmix from DESeq2
+#'
+#' The function estimates the compartment proportions from an estimated
+#' signature matrix using unmix
+#'
+#' @param yref matrix, numeric expression matrix
+#' @param sigs matrix, numeric expression compartment-specific sig matrix
+#' @param shift.range vector, numeric vector for gene expression shifts
+#' @param logTransform logical, T/F to logTransform data, defaults to F
+#'
+#' @return list with cell-type proportions and expression profiles
+#'
+#' @importFrom DESeq2 unmix
+#'
+#' @export
 estimateUnmix <- function(yref,
                           sigs,
                           shift.range = 10^(1:10),
                           logTransform = F){
 
 
-    if (class(yref) != c('matrix')){
+    if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
     }
 

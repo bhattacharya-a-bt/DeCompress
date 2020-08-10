@@ -1,28 +1,36 @@
-#' Use NMF repeatedly with TOAST framework to find cell-type gene signatures
-#' and do deconvolution
+#' Find cell-type gene signatures and do deconvolution
 #'
 #' The function finds cell-type gene signatures and does deconvolution
 #' using the TOAST framework with NMF
 #'
 #' @param yref matrix, numeric expression matrix
-#' @param iters numeric, number of interations
-#' @param pval numeric, p-value cutoff
 #' @param n.types integer, number of cell-types
 #' @param scree character, method to estimate n.types if n.types is NULL
-#' @param log logical, T/F if yref is in log-scale
+#' @param logTransform logical, T/F if yref is in log-scale
+#' @param known.props matrix, known proportion matrix, NULL if not known
+#' @param methods vector, character vector of deconv methods to use
 #'
 #' @return list with cell-type proportions and expression profiles
+#'
+#' @import NMF
+#'
+#' @importFrom CellDistinguisher gecd_CellDistinguisher
 #'
 #' @export
 bestDeconvolution <- function(yref,
                               n.types = NULL,
-                              scree = c('drop','cumvar','residual'),
+                              scree = 'drop',
                               logTransform = F,
-                              known.props = NULL){
+                              known.props = NULL,
+                              methods = c('TOAST',
+                                          'linseed',
+                                          'celldistinguisher')){
 
-
-    if (class(yref) != c('matrix')){
-        stop("matrix not supplied in yref")
+    if (is(yref, "SummarizedExperiment")) {
+        se <- yref
+        yref <- assays(se)$counts
+    } else if (!is(yref, "matrix")) {
+        stop("Y_raw should be a matrix or a SummarizedExperiment object!")
     }
 
     if (logTransform){
@@ -37,11 +45,13 @@ bestDeconvolution <- function(yref,
     }
 
     geneList = rownames(yref)
+    all.res = list()
 
     ### TOAST + NMF
+    if ('TOAST' %in% methods){
     toast.nmf <- csDeCompress(Y_raw = yref,
                               K = n.types,
-                              nMarker = min(1000,nrow(yref)),
+                              nMarker = min(n_genes,nrow(yref)),
                               FUN = nmfOut,
                               TotalIter = 30)
 
@@ -52,19 +62,33 @@ bestDeconvolution <- function(yref,
     ppp = t(apply(ppp,1,function(c) c/sum(c)))
     nmf.res = list(prop = ppp,
                    sig = basis(fin.nmf))
+    all.res = rlist::list.append(all.res,
+                                 nmf.res)}
 
 
     ### LINSEED
+    if ('linseed' %in% methods){
     linseed.rs = linCor(yref = yref,
                         iters = 100,
-                        pval = .01,
+                        pval = .1,
                         n.types = n.types,
                         scree = 'drop',
                         logTransform = F)
     names(linseed.rs) = names(nmf.res)
-    linseed.rs$prop = t(linseed.rs$prop)
+    if (ncol(linseed.rs$prop) != n.types){
+        linseed.rs$prop = t(linseed.rs$prop)
+    }
+    if (is.na(linseed.rs$sig)){
+        all.res = rlist::list.append(all.res,
+                                     nmf.res)
+    } else {
+        all.res = rlist::list.append(all.res,
+                                     linseed.rs)
+    }
+    }
 
     ### CellDistinguisher
+    if ('celldistinguisher' %in% methods){
     cd <- CellDistinguisher::gecd_CellDistinguisher(yref,
                                  genesymb=geneList,
                                  numCellClasses=n.types,
@@ -90,21 +114,10 @@ bestDeconvolution <- function(yref,
                            sig = CellDist.deconv$cellSubclassSignatures)
     } else {CellDist.rs = nmf.res}
 
-    ### DeconICA
-    deconica.deconv = deconica::run_fastica(yref,
-                                            overdecompose = F,
-                                            with.names = F,
-                                            gene.names = geneList,
-                                            samples = colnames(yref),
-                                            n.comp = n.types,
-                                            R = T)
-    deconica.rs = list(prop = t(deconica.deconv$A),
-                       sig = deconica.deconv$S)
+    all.res = rlist::list.append(all.res,
+                                 CellDist.rs)
+    }
 
-    all.res = list(nmf.res,
-                   linseed.rs,
-                   CellDist.rs,
-                   deconica.rs)
     errors = vector(mode = 'numeric',
                     length = length(all.res))
     for (i in 1:length(errors)){
@@ -113,9 +126,6 @@ bestDeconvolution <- function(yref,
                                    trueProp = known.props,
                                    yref = yref)
     }
-
-
-
 
     return(all.res[[which.min(errors)]])
 }
