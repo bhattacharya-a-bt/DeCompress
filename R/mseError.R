@@ -9,6 +9,8 @@
 #'
 #' @return number of cell types
 #'
+#' @importFrom gtools permutations
+#'
 #' @export
 mseError <- function(mat1,mat2,rand=F,r2=F){
 
