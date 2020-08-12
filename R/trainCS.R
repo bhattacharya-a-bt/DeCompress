@@ -32,11 +32,11 @@ trainCS <- function(yref,
                     n.cores,
                     lambda = .1){
 
-    if (class(yref) != 'matrix'){
+    if (all(class(yref) != 'matrix')){
         stop("matrix not supplied in yref")
     }
 
-    if (class(yref_need) != 'matrix'){
+    if (all(class(yref_need) != 'matrix')){
         stop("matrix not supplied in yref_need")
     }
 

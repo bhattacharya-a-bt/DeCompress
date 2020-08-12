@@ -21,8 +21,8 @@
 #' @export
 csDeCompress <- function(Y_raw,
                          K,
-                         FUN = nmfOut,
                          nMarker = 1000,
+                         FUN = nmfOut,
                          InitMarker = NULL,
                          TotalIter = 30,
                          bound_negative = FALSE) {
@@ -73,7 +73,7 @@ csDeCompress <- function(Y_raw,
         updatedInx <- TOAST::DEVarSelect(Y_raw, Prop0,
                                          nMarker, bound_negative)
         Y <- Y_raw[updatedInx, ]
-        Prop0 <- FUN(Y, K)
+        Prop0 <- FUN(Y+1, K)
         allProp[[i + 1]] <- Prop0
 
         out_all <- csSAM::csfit(Prop0, t(Y_raw))

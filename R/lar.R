@@ -17,15 +17,6 @@ lar <- function(need,
                 train,
                 seed = 1218){
 
-    if (class(need) != 'numeric'){
-        stop('need is not a numeric vector')
-    }
-
-
-    if (class(train) != 'matrix'){
-        stop('train is not a numeric matrix')
-    }
-
 
     set.seed(seed)
     lar = lars::cv.lars(x = t(train),

@@ -25,7 +25,11 @@ findInformSet <- function(yref,
 
 
     if (method == 'linearity'){
-        yref_need = linCor(yref)
+        yref_need = yref[rownames(linCor(yref,
+                                         pval = .25,
+                                         n.types = n.types,
+                                         scree = scree,
+                                         logTransform = F)$sig),]
     }
 
     if (method == 'variance'){

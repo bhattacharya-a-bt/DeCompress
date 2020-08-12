@@ -7,14 +7,14 @@
 #'
 #' @return coefficient matrix from NMF
 #'
-#'
-#' @importFrom NMF nmf
+#' @import NMF
 #'
 #' @export
 nmfOut <- function(Y,
                    K){
 
-    outY = NMF::nmf(Y,rank = K)
+    require(NMF)
+    outY = nmf(Y,rank = K)
     return(t(coef(outY)))
 
 }

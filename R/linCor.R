@@ -17,7 +17,7 @@ linCor <- function(yref,
                    iters = 100,
                    pval = .01,
                    n.types = NULL,
-                   scree = c('drop','cumvar','residual'),
+                   scree = 'cumvar',
                    logTransform = F){
 
     if (all(class(yref) != c('matrix'))){

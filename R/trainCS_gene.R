@@ -33,7 +33,7 @@ trainCS_gene <- function(need,
         stop("provide a numeric vector for need")
     }
 
-    if (class(train) != 'matrix'){
+    if (all(class(train) != 'matrix')){
         stop("matrix not supplied for train")
     }
 
