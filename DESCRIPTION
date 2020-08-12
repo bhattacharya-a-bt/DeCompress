@@ -1,14 +1,19 @@
 Package: DeCompress
 Type: Package
 Title: Tissue compartment deconvolution for targeted RNA panels
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: Arjun Bhattacharya <bhattacharya.a.bt@gmail.com>
+Version: 1.0.0
+Authors@R:
+    person(given = "Arjun",
+           family = "Bhattacharya",
+           role = c("aut", "cre"),
+           email = "bhattacharya.a.bt@gmail.com")
 Description: Deconvolution of bulk RNA expression from targeted panels
-    Requires reference RNA-seq or microarray expression and produces
-    estimates of compartment proportions and compartment expression signatures
-License: What license is it under?
+    using compressed sensing
+Imports: caret, R1magic, CellDistinguisher, reconstruction,
+    glmnet, DESeq2, lars, linseed, gtools, NMF, future,
+    future.apply, pbapply, TOAST, csSAM
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat
+    testthat, knitr, rmarkdown
