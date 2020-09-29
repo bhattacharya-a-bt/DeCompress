@@ -47,7 +47,7 @@ trainCS_gene <- function(need,
         mod.lasso = bigstatsenet(need,
                          t(train),
                          seed,
-                         alpha = 0)
+                         alpha = 1e-4)
         } else {mod.lasso = list(r2 = -1)}
 
 
