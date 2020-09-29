@@ -9,9 +9,9 @@ Authors@R:
            email = "bhattacharya.a.bt@gmail.com")
 Description: Deconvolution of bulk RNA expression from targeted panels
     using compressed sensing
-Imports: caret, R1magic, CellDistinguisher, reconstruction,
+Imports: caret, R1magic, CellDistinguisher,
     glmnet, DESeq2, lars, linseed, gtools, NMF, future,
-    future.apply, pbapply, TOAST, csSAM
+    future.apply, pbapply, TOAST, csSAM, bigstatsr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
