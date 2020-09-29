@@ -41,6 +41,7 @@ trainCS <- function(yref,
     }
 
     if (!par){
+
     compression = pbapply::pbapply(as.matrix(yref_need),
                         MARGIN = 1,
                         trainCS_gene,
@@ -48,6 +49,8 @@ trainCS <- function(yref,
                         seed=seed,
                         method = method,
                         lambda = lambda)
+
+
     }
 
     if (par){
