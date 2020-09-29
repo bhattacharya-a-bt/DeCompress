@@ -44,25 +44,25 @@ trainCS_gene <- function(need,
         } else {mod.lar = list(r2 = -1)}
 
     if ('lasso' %in% method){
-        mod.lasso = bigstatsenet(need,
+        mod.lasso = suppressWarnings(bigstatsenet(need,
                          t(train),
                          seed,
-                         alpha = 1e-4)
+                         alpha = 1e-4))
         } else {mod.lasso = list(r2 = -1)}
 
 
     if ('enet' %in% method){
-        mod.enet = bigstatsenet(need,
+        mod.enet = suppressWarnings(bigstatsenet(need,
                         t(train),
                         seed,
-                        alpha = .5)
+                        alpha = .5))
         } else {mod.enet = list(r2 = -1)}
 
     if ('ridge' %in% method){
-        mod.ridge = bigstatsenet(need,
+        mod.ridge = suppressWarnings(bigstatsenet(need,
                          t(train),
                          seed,
-                         alpha = 1)
+                         alpha = 1))
         } else {mod.ridge = list(r2 = -1)}
 
     if ('l1' %in% method){
