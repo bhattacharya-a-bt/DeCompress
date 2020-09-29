@@ -22,25 +22,17 @@ bigstatsenet <- function(need,
         stop('alpha is not between 0 and 1')
     }
 
-    backing = paste(sample(letters,10),collapse='')
-    if (file.exists(paste0(backing,'.bk'))){
-        file.remove(paste0(backing,'.bk'))
-    }
+
     X = bigstatsr::FBM(nrow = nrow(train),
             ncol = ncol(train),
             init = as.vector(train),
-            backing = backing)
+            backing = tempfile())
 
     set.seed(seed)
     lar = bigstatsr::big_spLinReg(X,
                                   y = need,
                                   alpha = alpha,
                                   K = 5)
-
-
-    if (file.exists(paste0(backing,'.bk'))){
-        file.remove(paste0(backing,'.bk'))
-    }
 
     return(list(coef = unlist(summary(lar)$beta),
                 r2 = 1 - (summary(lar)$validation_loss/var(need))))
