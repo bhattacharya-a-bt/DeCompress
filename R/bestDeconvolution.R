@@ -51,7 +51,7 @@ bestDeconvolution <- function(yref,
     if ('TOAST' %in% methods){
     toast.nmf <- csDeCompress(Y_raw = yref,
                               K = n.types,
-                              nMarker = min(n_genes,nrow(yref)),
+                              nMarker = nrow(yref),
                               FUN = nmfOut,
                               TotalIter = 30)
 
