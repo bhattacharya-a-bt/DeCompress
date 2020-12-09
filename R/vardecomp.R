@@ -12,7 +12,8 @@
 #'
 #' @export
 vardecomp <- function(yref,
-                      n_genes = 1000){
+                      n_genes = 1000,
+                      n.types){
 
     if (all(class(yref) != c('matrix'))){
         stop("matrix not supplied in yref")
