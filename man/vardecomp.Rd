@@ -4,7 +4,7 @@
 \alias{vardecomp}
 \title{Select CTS genes with variance proporties}
 \usage{
-vardecomp(yref, n_genes = 1000)
+vardecomp(yref, n_genes = 1000, n.types)
 }
 \arguments{
 \item{yref}{matrix, numeric matrix of reference expression}

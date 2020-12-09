@@ -10,7 +10,7 @@
 #'
 #' @return list with coefficients and predictive R2
 #'
-#' @importFrom R1magic solveTV
+#' @importFrom R1magic solve1TV
 #' @importFrom caret createFolds
 #'
 #' @export
