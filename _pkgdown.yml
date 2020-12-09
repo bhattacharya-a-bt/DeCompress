@@ -15,7 +15,6 @@ reference:
       Functions for data-driven methods of estimating number of compartments
     contents:
       - kaiser
-      - residualMatrix
       - structureMeasure
       - findNumberCells
   - title: "Feature selection"
@@ -42,3 +41,10 @@ reference:
       - linCor
       - nmfOut
       - iterateSigs
+  - title: "Miscellaneous"
+    desc: >
+      Functions for calculating error or expanding target
+    contents:
+      - calculateError
+      - mseError
+      - expandTarget
