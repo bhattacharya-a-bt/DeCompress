@@ -7,7 +7,7 @@ of cells of similar type or biological function (i.e. immune
 or stroma or tumor compartments).
 Please cite 
 [Bhattacharya et al 2020](https://www.biorxiv.org/content/10.1101/2020.08.14.250902v2) 
-if you use our package.
+if you use our package. Visit [our documentation page](https://bhattacharya-a-bt.github.io/DeCompress/).
 
 ## Installation
 
