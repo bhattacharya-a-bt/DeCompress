@@ -36,6 +36,7 @@ matrices.
 
 ```r
 pure = matrix(abs(rnorm(1e4*4)),ncol=4)
+rownames(pure) = paste0('Gene',1:1e4)
 reference_props = apply(matrix(abs(rnorm(200*4)),ncol=4),
         1,function(x) x/sum(x))
 target_props = apply(matrix(abs(rnorm(200*4)),ncol=4),
@@ -48,4 +49,82 @@ target = pure[sample(1:1e4,400),] %*% target_props
 ### Step 1: Feature selection
 
 Step 1 of DeCompress is to feature select a set of $K'$ genes from
-the reference. 
+the reference that are compartment-specific. 
+We have a wrapper function for this:
+
+```r
+compSpec = findInformSet(yref = reference,
+                         method = 'variance',
+                         n_genes = 1000,
+                         n.types = 4)
+```
+
+The `method = variance` option calls `TOAST` for this feature selection,
+a method we have seen to be best suited for this task. The
+`method = linearity` uses the `linseed` method's mutual linearity
+assumption to select compartment-specific genes. `findInformSet()`
+returns the reference matrix, reduced to these $K'$ genes.
+
+### Step 2: Train the compressed sensing matrix
+
+Step 2 of DeCompress is to train the compressed sensing
+model that projects the feature space of target matrix to
+the $K'$ compartment-specific genes. This is done 
+with the `trainCS()` function.
+
+```r
+csModel = trainCS(yref = reference[rownames(target),],
+                    yref_need = compSpec,
+                    seed = 1111,
+                    method = c('lar',
+                               'lasso',
+                               'enet',
+                               'ridge',
+                               'l1',
+                               'TV',
+                               'l2'),
+                    par = T,
+                    n.cores = 4,
+                    lambda = .1)
+```
+
+Here, `yref` takes in the reference matrix subsetted to
+the $k$ genes on the target and `yref_need` takes in the reference matrix
+subsetted to the $K'$ compartment-specific genes. The `method` option
+allows for various predictive models: `lar` is least angle
+regression, `lasso`, `enet`, and `ridge` fits the `glmnet`
+methods, and `l1`, `TV`, and `l2` are non-linear optimization
+methods to different penalties (see the `R1Magic` package).
+You can also parallelize by toggling `par` and setting the number
+of cores to `n.cores`. `lambda` is a penalization parameter
+for the non-linear methods defaulted to 0.1. The three 
+`glmnet` methods are fastest and work as well as (if not better than)
+the other methods.
+
+Once the compressed sensing model is fit, the compression
+matrix is extracted with `csModel$compression.matrix`
+and the DeCompressed expression is calculated with 
+`dcexp = expandTarget(target,csModel$compression.matrix)`.
+
+### Step 3: Ensemble deconvolution
+
+Step 3 of DeCompress is to run ensemble deconvolution
+on the DeCompressed expression data.
+
+```r
+csModel = bestDeconvolution(yref = dcexp,
+                            n.types = 4,
+                            known.props = target_props,
+                            methods = c('TOAST',
+                                        'linseed',
+                                        'celldistinguisher'))
+```
+
+Here, `yref` takes in the DeCompressed matrix with
+`n.types` taking in the number of compartments.
+`known.props` can be passed a proportion matrix
+if that is known; if left set to `NULL`, the
+function will output the deconvolution
+with the smallest reconstruction error. The `method` option
+allows for various deconvolution methods. Feel free to use your
+favorite reference-free method to deconvolve `dcexp`.
