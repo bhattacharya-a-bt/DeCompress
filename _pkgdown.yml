@@ -1,0 +1,44 @@
+destination: docs
+template:
+  params:
+    bootswatch: flatly
+reference:
+  - title: "DeCompress pipeline functions"
+    desc: >
+      Functions for the main pipeline
+    contents:
+      - findInformSet
+      - trainCS
+      - bestDeconvolution
+  - title: "Estimate number of compartments"
+    desc: >
+      Functions for data-driven methods of estimating number of compartments
+    contents:
+      - kaiser
+      - residualMatrix
+      - structureMeasure
+      - findNumberCells
+  - title: "Feature selection"
+    desc: >
+      Functions for Step 1 feature selection
+    contents:
+      - vardecomp
+  - title: "Train compressed sensing"
+    desc: >
+      Functions for predictive modeling
+    contents:
+      - TVMagic
+      - bigstatsenet
+      - l1Magic
+      - l2Magic
+      - lar
+      - trainCS_gene
+  - title: "Deconvolution"
+    desc: >
+      Functions for deconvolution
+    contents:
+      - csDeCompress
+      - estimateUnmix
+      - linCor
+      - nmfOut
+      - iterateSigs
