@@ -19,9 +19,9 @@ Make sure to have dependencies installed as well!
 ## Using DeCompress
 
 `DeCompress` requires two input data matrices:
-- the *target* matrix ($k \times n$) with  $k$ genes and $n$ samples, and
-- the *reference* matrix ($K \times n$) with $K$ genes and $N$ samples with
-$K > k$.
+- the *target* matrix (k X n) with k genes and n samples, and
+- the *reference* matrix (K X n) with K genes and N samples with
+K > k.
 
 `DeCompress` also requires *a priori* knowledge of the number of tissue
 compartments. If you don't know the number of compartments you wish
